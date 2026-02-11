@@ -2,10 +2,28 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>Veux tu être ma Valentine ? 💘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Veux-tu être ma Valentine ? 💘</title>
   </head>
+
   <body>
     <div id="app"></div>
+
+    <!-- 🔥 Formulaire caché pour Netlify (OBLIGATOIRE en HTML statique) -->
+    <form
+      name="valentine-yes"
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      hidden
+    >
+      <input type="hidden" name="form-name" value="valentine-yes" />
+      <input name="bot-field" />
+      <input type="hidden" name="answer" value="YES" />
+      <input type="hidden" name="name" value="NEVE" />
+      <input type="hidden" name="timestamp" />
+    </form>
+
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
