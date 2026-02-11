@@ -50,21 +50,6 @@ app.innerHTML = `
 
       <p class="tiny">Tu peux prendre une capture d’écran 😌</p>
     </section>
-
-    <!-- Form Netlify (caché) : envoie un POST quand elle clique OUI -->
-    <form
-      name="valentine-yes"
-      method="POST"
-      data-netlify="true"
-      data-netlify-honeypot="bot-field"
-      hidden
-    >
-      <input name="bot-field" />
-      <input type="hidden" name="form-name" value="valentine-yes" />
-      <input type="hidden" name="answer" value="YES" />
-      <input type="hidden" name="name" value="NEVE" />
-      <input type="hidden" name="timestamp" id="tsField" />
-    </form>
   </main>
 `;
 
@@ -74,7 +59,6 @@ const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const status = document.getElementById("status");
 const rewards = document.getElementById("rewards");
-const tsField = document.getElementById("tsField");
 
 const noIcon = noBtn.querySelector(".btn-icon");
 const yesIcon = yesBtn.querySelector(".btn-icon");
@@ -114,11 +98,10 @@ function moveNoButton(evt) {
 
   noBtn.style.left = `${left}px`;
   noBtn.style.top = `${top}px`;
-  noBtn.style.transform = "none"; // évite le double déplacement
+  noBtn.style.transform = "none";
 
   status.textContent = messages[msgIndex];
   noIcon.textContent = "💔";
-
   msgIndex = (msgIndex + 1) % messages.length;
 }
 
@@ -162,13 +145,13 @@ if (window.innerWidth < 600) {
 
 // ✅ Envoi Netlify
 async function sendYesToNetlify() {
-  tsField.value = new Date().toISOString();
+  const timestamp = new Date().toISOString();
 
   const payload = new URLSearchParams({
     "form-name": "valentine-yes",
     answer: "YES",
     name: "NEVE",
-    timestamp: tsField.value,
+    timestamp,
   });
 
   const res = await fetch("/", {
@@ -185,13 +168,13 @@ yesBtn.addEventListener("click", async () => {
   yesBtn.disabled = true;
 
   try {
-    await sendYesToNetlify(); // email via Netlify notifications (après déploiement)
+    await sendYesToNetlify();
     rewards.hidden = false;
     status.textContent = "C’est officiel 💘";
     yesIcon.textContent = "💞";
   } catch (e) {
     console.error(e);
-    status.textContent = "Oups… l’envoi a échoué. (Ça marche après déploiement Netlify)";
+    status.textContent = "Oups… l’envoi a échoué. (Form Netlify pas détecté)";
     yesBtn.disabled = false;
   }
 });
