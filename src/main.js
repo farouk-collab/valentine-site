@@ -150,7 +150,7 @@ async function sendYesToNetlify() {
   const payload = new URLSearchParams({
     "form-name": "valentine-yes",
     answer: "YES",
-    name: "NEVE",
+    name: "....",
     timestamp,
   });
 
